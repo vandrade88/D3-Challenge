@@ -144,7 +144,8 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", 10)
     .attr("fill", "lightblue")
-    .attr("opacity", ".80");
+    .attr("stroke", "white");
+    // .attr("opacity", ".80");
 
   // Create group for two x-axis labels
   var labelsGroup = chartGroup.append("g")
