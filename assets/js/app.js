@@ -55,26 +55,20 @@ function yScale(usData, chosenYAxis) {
   }
 
 // function used for updating xAxis var upon click on axis label
-function renderAxesX(newXScale, xAxis) {
+function renderAxes(newXScale, newYScale, xAxis, yAxis) {
   var bottomAxis = d3.axisBottom(newXScale);
+  var leftAxis = d3.axisLeft(newYScale);
 
   xAxis.transition()
     .duration(1000)
-    .call(bottomAxis);
-
-  return xAxis;
-}
-
-function renderAxesY(newYScale, yAxis) {
-  var leftAxis = d3.axisLeft(newYScale);
+    .call(bottomAxis)
 
   yAxis.transition()
     .duration(1000)
     .call(leftAxis);
 
-  return yAxis;
+  return xAxis, yAxis;
 }
-  
 
 // function used for updating circles group with a transition to
 // new circles
@@ -82,25 +76,23 @@ function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYA
 
   circlesGroup.transition()
     .duration(1000)
-    .attr("cx", d => newXScale(d[chosenXAxis]));
-
-  circlesGroup.transition()
-    .duration(1000)
+    .attr("cx", d => newXScale(d[chosenXAxis]))
     .attr("cy", d => newYScale(d[chosenYAxis]));
 
   return circlesGroup;
 }
 
 // function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, circlesGroup) {
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
-  var label;
+  var labelX;
+  var labelY;
 
-  if (chosenXAxis === "age" || chosenYAxis === "smokes") {
+  if (chosenXAxis === "age" && chosenYAxis === "smokes") {
     labelX = "Median Age:"
     labelY = "Smokes:";
   }
-  else if (chosenXAxis === "income" || chosenYAxis === "healthcare") {
+  else if (chosenXAxis === "income" && chosenYAxis === "healthcare") {
     labelX = "Median Income:"
     labelY = "Lacks Healthcare:";
   }
@@ -113,7 +105,7 @@ function updateToolTip(chosenXAxis, circlesGroup) {
     .attr("class", "tooltip")
     .offset([80, -60])
     .html(function(d) {
-      return (`${d.state}<br>${labelX}${(d[chosenXAxis] * 100)}%<br>${labelY}${(d[chosenYAxis]* 100)}%`);
+      return (`${d.state}<br>${labelX}${(d[chosenXAxis])}%<br>${labelY}${(d[chosenYAxis])}%`);
     });
 
   circlesGroup.call(toolTip);
@@ -128,38 +120,6 @@ function updateToolTip(chosenXAxis, circlesGroup) {
 
   return circlesGroup;
 }
-
-// function updateToolTipY(chosenYAxis, circlesGroupY) {
-
-//     var label;
-  
-//     if (chosenYAxis === "hair_length") {
-//       label = "Hair Length:";
-//     }
-//     else {
-//       label = "# of Albums:";
-//     }
-  
-//     var toolTip = d3.tip()
-//       .attr("class", "tooltip")
-//       .offset([80, -60])
-//       .html(function(d) {
-//         return (`${d.rockband}<br>${label} ${d[chosenXAxis]}`);
-//       });
-  
-//     circlesGroup.call(toolTip);
-  
-//     circlesGroup.on("mouseover", function(data) {
-//       toolTip.show(data);
-//     })
-//       // onmouseout event
-//       .on("mouseout", function(data, index) {
-//         toolTip.hide(data);
-//       });
-  
-//     return circlesGroup;
-//   }
-
 // Retrieve data from the CSV file and execute everything below
 d3.csv("assets/data/data.csv").then(function(usData, err) {
   if (err) throw err;
@@ -260,22 +220,18 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .text("Lacks Healthcare (%)");
 
 //   // updateToolTip function above csv import
-//   var circlesGroup2 = updateToolTip(chosenXAxis, circlesGroupX);
-//   var circlesGroup2 = (chosenXAxis, circlesGroupX);
-
-//   var circlesGroupY = updateToolTip(chosenXAxis, circlesGroupY);
-//   var circlesGroupY = (chosenYAxis, circlesGroupY);
-
+  var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
   // x axis labels event listener
   labelsGroup.selectAll("text")
     .on("click", function() {
       // get value of selection
       var value = d3.select(this).attr("value");
-      if (value !== chosenXAxis) {
+      if (value !== chosenXAxis || value !== chosenYAxis) {
 
         // replaces chosenXAxis with value
         chosenXAxis = value;
+        chosenYAxis = value;
 
         // console.log(chosenXAxis)
 
@@ -285,8 +241,8 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
         yLinearScale = yScale(usData, chosenYAxis);
 
         // updates x axis with transition
-        xAxis = renderAxesX(xLinearScale, xAxis);
-        yAxis = renderAxesY(yLinearScale, yAxis);
+        xAxis = renderAxes(xLinearScale, yLinearScale, xAxis, yAxis);
+        yAxis = renderAxes(xLinearScale, yLinearScale, xAxis, yAxis);
 
         // updates circles with new x values
         circlesGroup = renderCircles(circlesGroup, xLinearScale, yLinearScale, chosenXAxis, chosenYAxis);
