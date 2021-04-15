@@ -150,19 +150,19 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
   var labelsGroup = chartGroup.append("g")
     .attr("transform", `translate(${width / 2}, ${height + 20})`);
 
-  var hairLengthLabel = labelsGroup.append("text")
+  var povertyLabel = labelsGroup.append("text")
     .attr("x", 0)
     .attr("y", 20)
-    .attr("value", "hair_length") // value to grab for event listener
+    .attr("value", "poverty") // value to grab for event listener
     .classed("active", true)
-    .text("Hair Metal Ban Hair Length (inches)");
+    .text("In Poverty (%)");
 
-  var albumsLabel = labelsGroup.append("text")
-    .attr("x", 0)
-    .attr("y", 40)
-    .attr("value", "num_albums") // value to grab for event listener
-    .classed("inactive", true)
-    .text("# of Albums Released");
+//   var albumsLabel = labelsGroup.append("text")
+//     .attr("x", 0)
+//     .attr("y", 40)
+//     .attr("value", "num_albums") // value to grab for event listener
+//     .classed("inactive", true)
+//     .text("# of Albums Released");
 
   // append y axis
   chartGroup.append("text")
@@ -170,8 +170,8 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .attr("y", 0 - margin.left)
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
-    .classed("axis-text", true)
-    .text("Number of Billboard 500 Hits");
+    .classed("active", true)
+    .text("Lacks Healthcare (%)");
 
   // updateToolTip function above csv import
   var circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
