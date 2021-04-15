@@ -142,9 +142,9 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
     .attr("cy", d => yLinearScale(d.num_hits))
-    .attr("r", 20)
-    .attr("fill", "pink")
-    .attr("opacity", ".5");
+    .attr("r", 10)
+    .attr("fill", "lightblue")
+    .attr("opacity", ".80");
 
   // Create group for two x-axis labels
   var labelsGroup = chartGroup.append("g")
