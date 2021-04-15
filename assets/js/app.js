@@ -163,7 +163,7 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .attr("y", 40)
     .attr("value", "healthcare") // value to grab for event listener
     .classed("inactive", true)
-    .text("# of Albums Released");
+    .text("Lacks Healthcare (%)");
 
   // append y axis
   chartGroup.append("text")
@@ -204,18 +204,18 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
 
         // changes classes to change bold text
         if (chosenXAxis === "healthcare") {
-          albumsLabel
+          healthcareLabel
             .classed("active", true)
             .classed("inactive", false);
-          hairLengthLabel
+          povertyLabel
             .classed("active", false)
             .classed("inactive", true);
         }
         else {
-          albumsLabel
+          healthcareLabel
             .classed("active", false)
             .classed("inactive", true);
-          hairLengthLabel
+          ageLabel
             .classed("active", true)
             .classed("inactive", false);
         }
