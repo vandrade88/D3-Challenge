@@ -203,7 +203,7 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
         circlesGroup = updateToolTip(chosenXAxis, circlesGroup);
 
         // changes classes to change bold text
-        if (chosenXAxis === "healthcare") {
+        if (chosenXAxis === "age") {
           healthcareLabel
             .classed("active", true)
             .classed("inactive", false);
