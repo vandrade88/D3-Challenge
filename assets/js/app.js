@@ -185,20 +185,28 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .text("Age (Median)");
 
   // append y axis
-  var healthcareLabel = chartGroup.append("text")
+  var obesityLabel = chartGroup.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 0 - margin.left)
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
-    .classed("active", true)
-    .text("Lacks Healthcare (%)");
+    .classed("active", false)
+    .text("Obese (%)");
 
   var smokesLabel = chartGroup.append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 20 - margin.left)
+    .attr("x", 0 - (height / 2))
+    .attr("dy", "1em")
+    .classed("active", false)
+    .text("Smokes (%)");
+
+  var healthcareLabel = chartGroup.append("text")
     .attr("transform", "rotate(-90)")
     .attr("y", 40 - margin.left)
     .attr("x", 0 - (height / 2))
     .attr("dy", "1em")
-    .classed("active", false)
+    .classed("active", true)
     .text("Lacks Healthcare (%)");
 
   // updateToolTip function above csv import
