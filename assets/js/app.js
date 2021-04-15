@@ -2,10 +2,10 @@ var svgWidth = 960;
 var svgHeight = 500;
 
 var margin = {
-  top: 50,
-  right: 50,
-  bottom: 50,
-  left: 50
+    top: 20,
+    right: 40,
+    bottom: 80,
+    left: 100
 };
 
 var width = svgWidth - margin.left - margin.right;
@@ -158,12 +158,12 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .classed("active", true)
     .text("In Poverty (%)");
 
-  var healthcareLabel = labelsGroup.append("text")
+  var ageLabel = labelsGroup.append("text")
     .attr("x", 0)
     .attr("y", 40)
     .attr("value", "healthcare") // value to grab for event listener
     .classed("inactive", true)
-    .text("Lacks Healthcare (%)");
+    .text("Age (Median)");
 
   // append y axis
   chartGroup.append("text")
