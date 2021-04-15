@@ -184,6 +184,13 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .classed("inactive", true)
     .text("Age (Median)");
 
+  var incomeLabel = labelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", 60)
+    .attr("value", "healthcare") // value to grab for event listener
+    .classed("inactive", true)
+    .text("Household Income (Median)");
+
   // append y axis
   var obesityLabel = chartGroup.append("text")
     .attr("transform", "rotate(-90)")
