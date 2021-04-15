@@ -141,7 +141,7 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .enter()
     .append("circle")
     .attr("cx", d => xLinearScale(d[chosenXAxis]))
-    .attr("cy", d => yLinearScale(d.num_hits))
+    .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", 10)
     .attr("fill", "lightblue")
     .attr("opacity", ".80");
@@ -157,12 +157,12 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .classed("active", true)
     .text("In Poverty (%)");
 
-//   var albumsLabel = labelsGroup.append("text")
-//     .attr("x", 0)
-//     .attr("y", 40)
-//     .attr("value", "num_albums") // value to grab for event listener
-//     .classed("inactive", true)
-//     .text("# of Albums Released");
+  var albumsLabel = labelsGroup.append("text")
+    .attr("x", 0)
+    .attr("y", 40)
+    .attr("value", "num_albums") // value to grab for event listener
+    .classed("inactive", true)
+    .text("# of Albums Released");
 
   // append y axis
   chartGroup.append("text")
