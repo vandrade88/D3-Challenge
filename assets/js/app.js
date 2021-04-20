@@ -60,6 +60,9 @@ d3.csv("assets/data/data.csv").then(function(usData) {
     .data(usData)
     .enter()
     .append("circle")
+    .attr("class", function(d) {
+      return "stateCircle " + d.abbr;
+    })
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", 10)
