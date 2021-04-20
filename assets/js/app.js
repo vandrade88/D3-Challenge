@@ -1,10 +1,10 @@
-var svgWidth = 960-144;
-var svgHeight = 500-75;
+var svgWidth = 960;
+var svgHeight = 500;
 
 var margin = {
     top: 20,
     right: 40,
-    bottom: 60,
+    bottom: 80,
     left: 100
 };
 
@@ -23,8 +23,8 @@ var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 // Retrieve data from the CSV file and execute everything below
-d3.csv("assets/data/data.csv").then(function(usData) {
-  // if (err) throw err;
+d3.csv("assets/data/data.csv").then(function(usData, err) {
+  if (err) throw err;
 
   // parse data
   usData.forEach(function(data) {
@@ -59,27 +59,19 @@ d3.csv("assets/data/data.csv").then(function(usData) {
   var circlesGroup = chartGroup.selectAll("circle")
     .data(usData)
     .enter()
-    .append("circle")
-    .attr("class", function(d) {
-      return "stateCircle " + d.abbr;
-    })
+    .append("g")
+
+  var circles = circlesGroup.append("circle")
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", 10)
-    .attr("fill", "lightblue")
-    .attr("stroke", "white")
+    .attr('class', "stateCircle")
 
   circlesGroup.append("text")
-    .text(function(d) {
-      return d.abbr;
-    })
-    .attr("dx", function(d) {
-      return xLinearScale(d.poverty)
-    })
-    .attr("dy", function(d) {
-      return yLinearScale(d.healthcare)
-    })
-    .attr("font-size","8px")
+    .text(d => d.abbr)
+    .attr("dx", d => xLinearScale(d.poverty))
+    .attr("dy", d => yLinearScale(d.healthcare)+3) //to center the text in the circles
+    .attr('class', "stateText")
 
     // Create axes labels
     chartGroup.append("text")
@@ -87,12 +79,12 @@ d3.csv("assets/data/data.csv").then(function(usData) {
       .attr("y", 0 - margin.left + 40)
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
-      .attr("class", "aText")
+      .attr("class", "active")
       .text("Lacks Healthcare (%)");
 
     chartGroup.append("text")
       .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
-      .attr("class", "aText")
+      .attr("class", "active")
       .text("In Poverty (%)");
   }).catch(function(error) {
     console.log(error);
