@@ -66,17 +66,17 @@ d3.csv("assets/data/data.csv").then(function(usData) {
     .attr("fill", "lightblue")
     .attr("stroke", "white")
 
-var text = circlesGroup.append("g").selectAll("text")
-  .data(usData)
-  .enter()
-  .append("text")
-  .attr("cx", function(d) {
-    return d.abbr;
-  })
-  .attr("cy", function(d) {
-    return d.abbr;
-  })
-  .attr("font-size","10px");
+  circlesGroup.append("text")
+    .text(function(d) {
+      return d.abbr;
+    })
+    .attr("dx", function(d) {
+      return xLinearScale(d.poverty)
+    })
+    .attr("dy", function(d) {
+      return yLinearScale(d.healthcare)
+    })
+    .attr("font-size","8px")
 
     // Create axes labels
     chartGroup.append("text")
