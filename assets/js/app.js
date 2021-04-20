@@ -65,8 +65,18 @@ d3.csv("assets/data/data.csv").then(function(usData) {
     .attr("r", 10)
     .attr("fill", "lightblue")
     .attr("stroke", "white")
-    .text("Lacks Healthcare (%)");
-    // .attr("opacity", ".80");
+
+var text = circlesGroup.append("g").selectAll("text")
+  .data(usData)
+  .enter()
+  .append("text")
+  .attr("cx", function(d) {
+    return d.abbr;
+  })
+  .attr("cy", function(d) {
+    return d.abbr;
+  })
+  .attr("font-size","10px");
 
     // Create axes labels
     chartGroup.append("text")
