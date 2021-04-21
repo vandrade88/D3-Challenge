@@ -61,7 +61,7 @@ d3.csv("assets/data/data.csv").then(function(usData, err) {
     .enter()
     .append("g")
 
-  var circles = circlesGroup.append("circle")
+  circlesGroup.append("circle")
     .attr("cx", d => xLinearScale(d.poverty))
     .attr("cy", d => yLinearScale(d.healthcare))
     .attr("r", 10)

@@ -42,6 +42,28 @@ function xScale(usData, chosenXAxis) {
 
 }
 
+// function used for updating xAxis var upon click on axis label
+function renderXAxes(newXScale, xAxis) {
+  var bottomAxis = d3.axisBottom(newXScale);
+
+  xAxis.transition()
+    .duration(1000)
+    .call(bottomAxis)
+
+  return xAxis;
+}
+
+// function used for updating circles group with a transition to
+// new circles
+function renderRCircles(circlesGroup, newXScale, chosenXAxis) {
+
+  circlesGroup.transition()
+    .duration(1000)
+    .attr("cx", d => newXScale(d[chosenXAxis]))
+
+  return circlesGroup;
+}
+
 function yScale(usData, chosenYAxis) {
     // create scales
     var yLinearScale = d3.scaleLinear()
@@ -54,51 +76,43 @@ function yScale(usData, chosenYAxis) {
   
   }
 
-// function used for updating xAxis var upon click on axis label
-function renderAxes(newXScale, newYScale, xAxis, yAxis) {
-  var bottomAxis = d3.axisBottom(newXScale);
+  // function used for updating xAxis var upon click on axis label
+function renderYAxes(newYScale, yAxis) {
   var leftAxis = d3.axisLeft(newYScale);
-
-  xAxis.transition()
-    .duration(1000)
-    .call(bottomAxis)
 
   yAxis.transition()
     .duration(1000)
     .call(leftAxis);
 
-  return xAxis, yAxis;
+  return yAxis;
 }
 
 // function used for updating circles group with a transition to
 // new circles
-function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
+function renderYCircles(circlesGroup, newYScale, chosenYAxis) {
 
   circlesGroup.transition()
     .duration(1000)
-    .attr("cx", d => newXScale(d[chosenXAxis]))
-    .attr("cy", d => newYScale(d[chosenYAxis]));
+    .attr("cx", d => newYScale(d[chosenYAxis]))
 
   return circlesGroup;
 }
 
-// function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
-  var labelX;
-  var labelY;
+// function used for updating circles group with new tooltip
+function updateXToolTip(chosenXAxis, circlesGroup) {
 
   if (chosenXAxis === "age" && chosenYAxis === "smokes") {
-    labelX = "Median Age:"
-    labelY = "Smokes:";
+    var labelX = "Median Age:"
+    var labelY = "Smokes:";
   }
   else if (chosenXAxis === "income" && chosenYAxis === "healthcare") {
-    labelX = "Median Income:"
-    labelY = "Lacks Healthcare:";
+    var labelX = "Median Income:"
+    var labelY = "Lacks Healthcare:";
   }
   else {
-    labelX = "Poverty:"
-    labelY = "Obesity:";
+    var labelX = "Poverty:"
+    var labelY = "Obesity:";
   }
 
   var toolTip = d3.tip()
@@ -120,6 +134,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   return circlesGroup;
 }
+
 // Retrieve data from the CSV file and execute everything below
 d3.csv("assets/data/data.csv").then(function(usData, err) {
   if (err) throw err;
